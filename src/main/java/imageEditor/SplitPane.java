@@ -1,5 +1,6 @@
 package imageEditor;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.JSplitPane;
 import javax.swing.event.ChangeEvent;
@@ -7,6 +8,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import javax.swing.SwingConstants;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.lang.Object;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,12 +23,16 @@ import java.io.File;
  * @version 1.0
  **/
 
-class SplitPane extends JFrame implements ActionListener, ChangeListener {
+public class SplitPane extends JFrame implements ActionListener, ChangeListener {
 
     private     JSplitPane  splitPaneV;
     private     JSplitPane  splitPaneH;
     private     JPanel      panel1;
     private     JPanel      panel2;
+    private Image imagePreview = null;
+    private Image image1 = null;
+    private Image image2 = null;
+    private Image image3 = null;
 
 
     public SplitPane(){
@@ -280,10 +287,9 @@ class SplitPane extends JFrame implements ActionListener, ChangeListener {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             System.out.println(selectedFile.getName());
-
         }
     }
-    
+
     public void createPanel2(){
         panel2 = new JPanel();
         panel2.setLayout( new FlowLayout() );
@@ -309,6 +315,39 @@ class SplitPane extends JFrame implements ActionListener, ChangeListener {
         switch (ButtonName) {
             case "Cargar imagen":
                 System.out.println("Botón de Cargar imagen");
+                File inputFile = new FileSelector().inputImage();
+                BufferedImage myPictureOrigin = null;
+                BufferedImage myPicture1 = null;
+                BufferedImage myPicture2 = null;
+                BufferedImage myPicture3 = null;
+                try {
+                    myPictureOrigin = ImageIO.read(inputFile);
+                    myPicture1 = ImageIO.read(inputFile);
+                    myPicture2 = ImageIO.read(inputFile);
+                    myPicture3 = ImageIO.read(inputFile);
+
+                } catch (Exception fail) {
+                    fail.printStackTrace();
+                }
+                imagePreview = myPictureOrigin.getScaledInstance(panel2.getWidth(), panel2.getHeight(),
+                        Image.SCALE_SMOOTH);
+                image1 = myPicture1.getScaledInstance(panel2.getWidth(), panel2.getHeight(),
+                        Image.SCALE_SMOOTH);
+                image2 = myPicture2.getScaledInstance(panel2.getWidth(), panel2.getHeight(),
+                        Image.SCALE_SMOOTH);
+                image3 = myPicture3.getScaledInstance(panel2.getWidth(), panel2.getHeight(),
+                        Image.SCALE_SMOOTH);
+                JLabel picLabel = new JLabel(new ImageIcon(imagePreview));
+                JLabel picLabel2 = new JLabel(new ImageIcon(image1));
+                JLabel picLabel3 = new JLabel(new ImageIcon(image2));
+                JLabel picLabel4 = new JLabel(new ImageIcon(image3));
+                System.out.println(picLabel);
+                panel2.add(picLabel, BorderLayout.CENTER);
+                panel2.add(picLabel2,BorderLayout.CENTER);
+                panel2.add(picLabel3,BorderLayout.CENTER);
+                panel2.add(picLabel4,BorderLayout.CENTER);
+                panel2.revalidate();
+                panel2.repaint();
                 break;
             case "1":
                 System.out.println("Botón de 1");
