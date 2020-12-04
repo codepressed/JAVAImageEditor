@@ -3,6 +3,7 @@ package imageEditor;
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.IntStream;
 import javax.imageio.*;
 
 public class Convolution {
@@ -69,9 +70,9 @@ public class Convolution {
         return outputData;
     }
 
-    public static ArrayData[] getArrayDatasFromImage(String filename) throws IOException
+    public static ArrayData[] getArrayDatasFromImage(File fileProceed) throws IOException
     {
-        File file = new File(filename);
+        File file = fileProceed;
         BufferedImage inputImage = ImageIO.read(file);
         int width = inputImage.getWidth();
         int height = inputImage.getHeight();
@@ -91,52 +92,22 @@ public class Convolution {
         }
         return new ArrayData[] { reds, greens, blues };
     }
-
-    public static void writeOutputImage(String filename, ArrayData[] redGreenBlue) throws IOException
-    {
+    public static BufferedImage outputImage (ArrayData[] redGreenBlue) throws IOException {
         ArrayData reds = redGreenBlue[0];
         ArrayData greens = redGreenBlue[1];
         ArrayData blues = redGreenBlue[2];
         BufferedImage outputImage = new BufferedImage(reds.width, reds.height,
                 BufferedImage.TYPE_INT_ARGB);
-        for (int y = 0; y < reds.height; y++)
-        {
-            for (int x = 0; x < reds.width; x++)
-            {
+        for (int y = 0; y < reds.height; y++) {
+            for (int x = 0; x < reds.width; x++) {
                 int red = bound(reds.get(x, y), 256);
                 int green = bound(greens.get(x, y), 256);
                 int blue = bound(blues.get(x, y), 256);
                 outputImage.setRGB(x, y, (red << 16) | (green << 8) | blue | -0x01000000);
             }
         }
-        ImageIO.write(outputImage, "PNG", new File(filename));
-        return;
-    }
+        return outputImage;
 
-    public static void main(String[] args) throws IOException
-    {
-        int kernelWidth = Integer.parseInt(args[2]);
-        int kernelHeight = Integer.parseInt(args[3]);
-        int kernelDivisor = Integer.parseInt(args[4]);
-        System.out.println("Kernel size: " + kernelWidth + "x" + kernelHeight +
-                ", divisor=" + kernelDivisor);
-        int y = 5; //Starting 5 cos that's the Kernel arg position
-        ArrayData kernel = new ArrayData(kernelWidth, kernelHeight);
-        for (int i = 0; i < kernelHeight; i++)
-        {
-            System.out.print("[");
-            for (int j = 0; j < kernelWidth; j++)
-            {
-                kernel.set(j, i, Integer.parseInt(args[y++]));
-                System.out.print(" " + kernel.get(j, i) + " ");
-            }
-            System.out.println("]");
-        }
 
-        ArrayData[] dataArrays = getArrayDatasFromImage(args[0]);
-        for (int i = 0; i < dataArrays.length; i++)
-            dataArrays[i] = convolute(dataArrays[i], kernel, kernelDivisor);
-        writeOutputImage(args[1], dataArrays);
-        return;
     }
 }

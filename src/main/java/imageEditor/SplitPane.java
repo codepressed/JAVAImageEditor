@@ -322,20 +322,20 @@ public class SplitPane extends JFrame implements ActionListener, ChangeListener 
                 BufferedImage myPicture3 = null;
                 try {
                     myPictureOrigin = ImageIO.read(inputFile);
-                    myPicture1 = ImageIO.read(inputFile);
-                    myPicture2 = ImageIO.read(inputFile);
+                    myPicture1 = new GrayScale().GrayScaleConverter(inputFile);
+                    myPicture2 = new FilterImage().FilteredImage(inputFile);
                     myPicture3 = ImageIO.read(inputFile);
 
                 } catch (Exception fail) {
                     fail.printStackTrace();
                 }
-                imagePreview = myPictureOrigin.getScaledInstance(panel2.getWidth(), panel2.getHeight(),
+                imagePreview = myPictureOrigin.getScaledInstance(250,250,
                         Image.SCALE_SMOOTH);
-                image1 = myPicture1.getScaledInstance(panel2.getWidth(), panel2.getHeight(),
+                image1 = myPicture1.getScaledInstance(250,250,
                         Image.SCALE_SMOOTH);
-                image2 = myPicture2.getScaledInstance(panel2.getWidth(), panel2.getHeight(),
+                image2 = myPicture2.getScaledInstance(250,250,
                         Image.SCALE_SMOOTH);
-                image3 = myPicture3.getScaledInstance(panel2.getWidth(), panel2.getHeight(),
+                image3 = myPicture3.getScaledInstance(250,250,
                         Image.SCALE_SMOOTH);
                 JLabel picLabel = new JLabel(new ImageIcon(imagePreview));
                 JLabel picLabel2 = new JLabel(new ImageIcon(image1));
