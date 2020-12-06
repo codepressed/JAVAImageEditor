@@ -1,5 +1,11 @@
 package imageEditor;
 
+/**
+ * @author Dani Apesteguia - Codepressed
+ * @since   2020-11-30
+ * @version 1.0
+ **/
+
 public class Filters {
     private final int filterBorderDetect[] =
             {0, 1, 0,
