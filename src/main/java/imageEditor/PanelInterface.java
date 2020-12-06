@@ -5,16 +5,10 @@ import javax.swing.*;
 import javax.swing.JSplitPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
-import javax.swing.SwingConstants;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.lang.Object;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 
 /**
@@ -23,7 +17,7 @@ import java.io.File;
  * @version 1.0
  **/
 
-public class SplitPane extends JFrame implements ActionListener, ChangeListener {
+public class PanelInterface extends JFrame implements ActionListener, ChangeListener, Runnable {
 
     private     JSplitPane  splitPaneV;
     private     JSplitPane  splitPaneH;
@@ -35,7 +29,7 @@ public class SplitPane extends JFrame implements ActionListener, ChangeListener 
     private Image image3 = null;
 
 
-    public SplitPane(){
+    public PanelInterface(){
         setTitle( "Split Pane Application" );
         setBackground( Color.gray );
 
@@ -295,12 +289,12 @@ public class SplitPane extends JFrame implements ActionListener, ChangeListener 
         panel2.setLayout( new FlowLayout() );
     }
 
-    public static void main( String args[] ){
+    public void run(){
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (Exception evt) {}
         // Create an instance of the test application
-        SplitPane mainFrame = new SplitPane();
+        PanelInterface mainFrame = new PanelInterface();
         mainFrame.setSize(new Dimension(650,500));
         mainFrame.setPreferredSize(new Dimension(650,600));
         mainFrame.pack();
@@ -323,8 +317,8 @@ public class SplitPane extends JFrame implements ActionListener, ChangeListener 
                 try {
                     myPictureOrigin = ImageIO.read(inputFile);
                     myPicture1 = new GrayScale().GrayScaleConverter(inputFile);
-                    myPicture2 = new FilterImage().FilteredImage(inputFile);
-                    myPicture3 = ImageIO.read(inputFile);
+                    myPicture2 = new FilterImage().FilteredImage(inputFile,"BorderDetect");
+                    myPicture3 = new FilterImage().FilteredImage(inputFile,"Unfocus");
 
                 } catch (Exception fail) {
                     fail.printStackTrace();

@@ -1,14 +1,34 @@
 package imageEditor;
 
 public class Filters {
-    public final int filterFocus[] =
-            {0,0,0,0,0,
-            0,0,-1,0,0,
-            0,-1,5,-1,0,
-            0,0,-1,0,0,
-            0,0,0,0,0};
-    public final int filterBorderDetect[] =
+    private final int filterBorderDetect[] =
             {0, 1, 0,
             1, -4, 1,
             0, 1, 0};
+
+    private final int filterSharp[] =
+            {0, -1, 0,
+            -1, 5, -1,
+            0, -1, 0};
+
+
+    private final int filterUnfocus[] =
+            {1, 1, 1,
+             1, 1, 1,
+             1, 1, 1};
+
+    public int[] getFilterBorderDetect() {
+        return filterBorderDetect;
+    }
+
+    public int[] getFilterSharp() {
+        return filterSharp;
+    }
+
+    public int[] getFilterUnfocus() {
+        return filterUnfocus;
+    }
+
+
+
 }

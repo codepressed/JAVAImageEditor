@@ -5,10 +5,28 @@ import java.io.File;
 import java.io.IOException;
 import java.util.stream.IntStream;
 
+/**
+ * @author Dani Apesteguia - Codepressed
+ * @since   2020-11-30
+ * @version 1.0
+ **/
+
 public class FilterImage {
-    public BufferedImage FilteredImage (File imageToFilter) throws IOException {
+    public BufferedImage FilteredImage (File imageToFilter, String filterName) throws IOException {
         Filters filters = new Filters();
-        int[] filter = filters.filterBorderDetect;
+        int[] filter = null;
+
+        switch (filterName){
+            case "BorderDetect":
+                filter = filters.getFilterBorderDetect();
+                break;
+            case "Sharp":
+                filter = filters.getFilterSharp();
+                break;
+            case "Unfocus":
+                filter = filters.getFilterUnfocus();
+                break;
+        }
         int kernelWidth = (int) Math.sqrt(filter.length);
         int kernelDivisor = IntStream.of(filter).sum();
         if (kernelDivisor == 0){

@@ -3,8 +3,13 @@ package imageEditor;
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.stream.IntStream;
 import javax.imageio.*;
+
+/**
+ * @author Dani Apesteguia - Codepressed
+ * @since   2020-11-30
+ * @version 1.0
+ **/
 
 public class Convolution {
     public static class ArrayData

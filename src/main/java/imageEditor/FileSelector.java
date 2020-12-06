@@ -2,10 +2,13 @@ package imageEditor;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+
+/**
+ * @author Dani Apesteguia - Codepressed
+ * @since   2020-11-30
+ * @version 1.0
+ **/
 
 public class FileSelector {
     public File inputImage(){
